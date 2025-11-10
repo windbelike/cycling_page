@@ -17,8 +17,6 @@ import {
   LINE_OPACITY,
   MAP_HEIGHT,
   PRIVACY_MODE,
-  LIGHTS_ON,
-  getRuntimeSingleRunColor,
   PROVINCE_FILL_COLOR,
   COUNTRY_FILL_COLOR,
 } from '@/utils/const';
@@ -34,7 +32,6 @@ import styles from './style.module.css';
 import { FeatureCollection } from 'geojson';
 import { RPGeometry } from '@/static/run_countries';
 import LightsControl from '@/components/RunMap/LightsControl';
-import { useMapTheme, useThemeChangeCounter } from '@/hooks/useTheme';
 
 interface IRunMapProps {
   title: string;
@@ -94,25 +91,7 @@ const MapViewController = ({
   return null;
 };
 
-// Component to handle theme changes
-const MapThemeController = ({ 
-  tileUrl 
-}: { 
-  tileUrl: string;
-}) => {
-  const map = useMap();
-
-  useEffect(() => {
-    // Force re-render of tiles when theme changes
-    map.eachLayer((layer) => {
-      if (layer instanceof L.TileLayer) {
-        layer.redraw();
-      }
-    });
-  }, [tileUrl, map]);
-
-  return null;
-};
+// MapThemeController removed - map now uses fixed style regardless of theme
 
 const RunMap = ({
   title,
@@ -131,32 +110,14 @@ const RunMap = ({
     useState<FeatureCollection<RPGeometry> | null>(null);
   const [isLoadingMapData, setIsLoadingMapData] = useState(false);
 
-  // Use the map theme hook to get the current map theme
-  const currentMapTheme = useMapTheme();
-  const themeChangeCounter = useThemeChangeCounter();
+  // Use fixed single run color (not affected by theme)
+  const singleRunColor = '#52c41a'; // Fixed green color
 
-  // Get theme-aware single run color
-  const singleRunColor = useMemo(
-    () => getRuntimeSingleRunColor(),
-    [themeChangeCounter]
-  );
-
-  // Get tile layer URL based on theme
+  // Use fixed tile URL - always show standard light map, not affected by theme
   const tileUrl = useMemo(() => {
-    const isDark = currentMapTheme.includes('dark');
-    
-    if (IS_CHINESE) {
-      // Use higher quality Chinese tiles
-      return isDark
-        ? 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
-        : 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
-    }
-    
-    // For international, use CartoDB or OpenStreetMap
-    return isDark
-      ? 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
-      : 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png';
-  }, [currentMapTheme]);
+    // Always use standard Voyager style - clean and professional
+    return 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png';
+  }, []);
 
   const tileAttribution = useMemo(() => {
     return '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>';
@@ -352,7 +313,6 @@ const RunMap = ({
         }}
       >
         <MapViewController viewState={viewState} setViewState={setViewState} />
-        <MapThemeController tileUrl={tileUrl} />
         
         <TileLayer
           attribution={tileAttribution}

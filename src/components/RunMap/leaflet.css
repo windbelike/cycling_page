@@ -84,18 +84,8 @@
   }
 }
 
-/* Better visibility for dark themes */
-[data-theme='dark'] .leaflet-control-zoom a,
-[data-theme='dark'] .leaflet-control-fullscreen {
-  background-color: rgba(255, 255, 255, 0.1);
-  color: #fff;
-  border-color: rgba(255, 255, 255, 0.2);
-}
-
-[data-theme='dark'] .leaflet-control-zoom a:hover,
-[data-theme='dark'] .leaflet-control-fullscreen:hover {
-  background-color: rgba(255, 255, 255, 0.2);
-}
+/* Map always uses light theme styling - not affected by page theme */
+/* Controls remain visible with standard styling */
 
 /* Improve marker visibility */
 .leaflet-marker-pane {
