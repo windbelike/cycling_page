@@ -1,13 +1,11 @@
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
 import useSiteMetadata from '@/hooks/useSiteMetadata';
 import { useTheme, Theme } from '@/hooks/useTheme';
 import styles from './style.module.css';
 
 const Header = () => {
   const { logo, siteUrl, navLinks } = useSiteMetadata();
-  const { setTheme } = useTheme();
-  const [currentIconIndex, setCurrentIconIndex] = useState(0);
+  const { theme, setTheme } = useTheme();
 
   const icons = [
     {
@@ -53,12 +51,13 @@ const Header = () => {
   ];
 
   const handleToggle = () => {
-    const nextIndex = (currentIconIndex + 1) % icons.length;
-    setCurrentIconIndex(nextIndex);
-    setTheme(icons[nextIndex].id as Theme);
+    // Toggle between dark and light
+    const newTheme = theme === 'dark' ? 'light' : 'dark';
+    setTheme(newTheme);
   };
 
-  const currentIcon = icons[currentIconIndex];
+  // Get current icon based on actual theme (show opposite of current theme)
+  const currentIcon = theme === 'dark' ? icons[1] : icons[0];
 
   return (
     <>
