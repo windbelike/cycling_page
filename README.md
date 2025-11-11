@@ -38,3 +38,7 @@ grid.svg
 ```shell
 python run_page/gen_svg.py --from-db --title "Over 10KM Rides" --type grid --athlete "Sawyer"  --output assets/grid.svg --min-distance 10.0 --special-color yellow --special-color2 red --special-distance 20 --special-distance2 40 --use-localtime
 ```
+
+# Demo
+
+![Demo Screenshot](./public/images/demo.png)
