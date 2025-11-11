@@ -45,10 +45,10 @@ const RunRow = ({
     >
       <td>{titleForRun(run)}</td>
       <td>{distance}</td>
-      {SHOW_ELEVATION_GAIN && <td>{(run.elevation_gain ?? 0.0).toFixed(1)}</td>}
       {paceParts && <td>{paceParts}</td>}
       <td>{heartRate && heartRate.toFixed(0)}</td>
       <td>{runTime}</td>
+      {SHOW_ELEVATION_GAIN && <td>{(run.elevation_gain ?? 0.0).toFixed(1)}</td>}
       <td className={styles.runDate}>{run.start_date_local}</td>
     </tr>
   );

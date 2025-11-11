@@ -59,10 +59,10 @@ const RunTable = ({
 
     const sortFuncMap = new Map([
       ['KM', sortKMFunc],
-      ['Elev', sortElevationGainFunc],
       ['Pace', sortPaceFunc],
       ['BPM', sortBPMFunc],
       ['Time', sortRunTimeFunc],
+      ['Elev', sortElevationGainFunc],
       ['Date', sortDateFuncClick],
     ]);
 
